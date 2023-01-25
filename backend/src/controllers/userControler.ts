@@ -15,7 +15,7 @@ export const loginUser = async (req: Request, res: Response) => {
     try {
         const verification = await userModel.findOne({ email });
         if (await argon2.verify(verification?.password || '', password)) {
-            let token = jwt.sign({ email: verification?.email, username: verification?.username, role: verification?.role }, process.env.TOKEN || '')
+            let token = jwt.sign({ _id: verification?._id, email: verification?.email, username: verification?.username, role: verification?.role }, process.env.TOKEN || '')
             res.send({
                 message: 'Login successful!',
                 token

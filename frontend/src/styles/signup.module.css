@@ -1,0 +1,12 @@
+#signup-form {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 365px;
+    margin: auto;
+    padding: 5px;
+    background-color: white;
+}

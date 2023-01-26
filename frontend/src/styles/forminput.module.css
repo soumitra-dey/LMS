@@ -1,0 +1,10 @@
+#forminput{
+    width: 340px;
+    height: 40px;
+    border: none;
+    border-bottom: 0.5px solid rgba(128, 128, 128, 0.572);
+    text-align: start;
+    padding: 10px;
+    outline: none;
+    font-size: large;
+}

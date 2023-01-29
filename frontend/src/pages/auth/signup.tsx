@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import {
-    Box, Button, Text
+    Box, Button, Text, useToast
 } from '@chakra-ui/react';
 import styles from '../../styles/signup.module.css'
 import FormInput from '../../components/FormInput';
+import { userSignup } from '@/redux/auth/auth.actions';
+import { useRouter } from 'next/router';
 
 const form = [
     { label: 'Username', type: 'text', name: 'username' },
@@ -13,6 +15,10 @@ const form = [
 
 export default function signup() {
 
+
+    const toast = useToast();
+    const router = useRouter();
+    const [loading, setLoading] = useState(false)
     const [details, setDetails] = useState({
         username: '',
         email: '',
@@ -25,11 +31,32 @@ export default function signup() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(details);
+        setLoading(true)
+        if (details.email && details.password && details.password) {
+            userSignup(details).then((r) => {
+                toast({
+                    title: r ? 'Signup successful!' : 'User already exists!',
+                    position: 'top',
+                    status: r ? 'success' : 'error',
+                    duration: 4000,
+                    isClosable: true,
+                })
+                r && router.push('/auth/login')
+            }).finally(() => setLoading(false))
+        } else {
+            setLoading(false)
+            toast({
+                title: 'Please fill all the details!',
+                position: 'top',
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            })
+        }
     }
 
     return (
-        <Box 
+        <Box
             bgImage='linear-gradient(black, white)'
             h='100vh'
             color='black'
@@ -39,13 +66,15 @@ export default function signup() {
         >
 
             <Box id={styles['signup-form-parent']}>
-                <Text fontSize='4xl'> Signup  </Text>
-                <Text fontSize='2xl' as='i'> to start learning </Text>
+                <Text fontSize='2xl' as='i'> Start learning now. </Text>
                 <form id={styles['signup-form']} onSubmit={(e) => handleSubmit(e)}>
+                    <Text color='black' textShadow={'2px 2px 4px #000000'} fontSize='4xl'> Signup  </Text>
                     {
                         form.map((ele, i) => <FormInput key={i} handleChange={handleChange} label={ele.label} type={ele.type} name={ele.name} />)
                     }
                     <Button
+                        isLoading={loading}
+                        loadingText='submitting'
                         type='submit'
                         id={styles['register-button']}
                         color='white'

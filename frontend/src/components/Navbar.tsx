@@ -16,6 +16,7 @@ const navData = [
 export default function Navbar() {
 
     const [burger, setBurger] = useState(false);
+    const [profile, setProfile] = useState(false);
 
     return (
         <Flex
@@ -40,7 +41,13 @@ export default function Navbar() {
 
             <Box mr='20px'>
                 <Box id={styles.nav_profile} >
-                    <Text as='b' fontSize='sm'>Subhankar Roy</Text>
+                    <Text onClick={() => setProfile(!profile)} cursor='pointer' fontSize='md'>Subhankar Roy</Text>
+                    {
+                        profile && <Box id={styles.nav_profile_child}>
+                            <Link href=''><Text color='gray'>Profile</Text></Link>
+                            <Link href=''><Text color='red'>Logout</Text></Link>
+                        </Box>
+                    }
                 </Box>
 
                 <Button onClick={() => setBurger(!burger)} id={styles.nav_burger} size='xs'>
@@ -49,7 +56,11 @@ export default function Navbar() {
                     }
                 </Button>
 
-                <VStack id={styles.responsive_menu} bg='white' transition='0.5s' left={burger ? '0' : '-2000px'}>
+                <VStack id={styles.responsive_menu}
+                    bg='white'
+                    transition='0.5s'
+                    left={burger ? '0' : '-100vw'}
+                >
                     {
                         navData.map((ele, i) => {
                             return <Box

@@ -8,6 +8,8 @@
 
 .navbar_link {
     position: relative;
+    color: gray;
+    transition: 0.4s;
 }
 
 .navbar_text:hover+.navbar_line {
@@ -15,6 +17,10 @@
     transition: 0.2s;
     border: 1px solid teal;
     bottom: -9px;
+}
+
+.navbar_link:hover {
+    color: black;
 }
 
 .navbar_line {
@@ -32,6 +38,24 @@
 #nav_burger {
     display: none;
 }
+
+#nav_profile {
+    position: relative
+}
+
+#nav_profile_child {
+    line-height: 35px;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    border: 1px solid red;
+    padding: 5px;
+    bottom: -90px;
+    border-radius: 7px;
+    text-align: center;
+}
+
+
 
 @media screen and (max-width:480px) {}
 

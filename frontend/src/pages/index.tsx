@@ -1,9 +1,16 @@
+import Navbar from "@/components/Navbar";
+import { Box, Center, Text } from "@chakra-ui/react";
 
 
 export default function Home() {
   return (
-    <>
-      Home
-    </>
+    <Box style={{ height: '1000vh' }}>
+      <Navbar />
+      <Center>
+        <Text fontSize='4xl'>
+          Home
+        </Text>
+      </Center>
+    </Box>
   )
 }

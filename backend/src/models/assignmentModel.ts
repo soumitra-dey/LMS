@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const assignmentSchema = new Schema({
-    instructor: { name: String },
+    instructor: { type: String, required: true },
     assignments: {
         type: [String],
         required: true

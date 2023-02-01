@@ -3,6 +3,7 @@ import cors from "cors";
 import { connect } from "./src/config/Connect";
 import { authRouter } from "./src/routes/userRoutes";
 import { assignmentRouter } from "./src/routes/assignmentRoutes";
+import { lectureRouter } from "./src/routes/lectureRoutes";
 
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.all("/", (rq, rs) => rs.send("it works"));
 
 app.use("/auth", authRouter);
 app.use("/assignment", assignmentRouter);
+app.use("/lecture", lectureRouter);
 
 app.listen(8080, async () => {
     await connect();

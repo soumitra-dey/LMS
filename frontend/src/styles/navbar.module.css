@@ -40,7 +40,8 @@
 }
 
 #nav_profile {
-    position: relative
+    position: relative;
+    right:50px
 }
 
 #nav_profile_child {
@@ -50,9 +51,11 @@
     width: 100%;
     border: 1px solid red;
     padding: 5px;
-    bottom: -90px;
+    bottom: -95px;
     border-radius: 7px;
     text-align: center;
+    width: 120px;
+    right: -40px;    
 }
 
 

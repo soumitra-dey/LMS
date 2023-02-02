@@ -2,21 +2,43 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Box, Button, Flex, HStack, Img, Text, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import styles from '../styles/navbar.module.css';
-import NavbarButtons from './NavbarButtons';
+import NavbarButtons, { authType } from './NavbarButtons';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { RxCross2 } from 'react-icons/rx'
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogout } from '@/redux/auth/auth.actions';
+import { useRouter } from 'next/router';
+import jwt from 'jsonwebtoken'
 
 const navData = [
-    { name: 'Lectures', href: '' },
-    { name: 'Assignments', href: '' },
-    { name: 'Discussion', href: '' },
-    { name: 'Announcements', href: '' },
+    { name: 'Lectures', href: '/lms/lectures', instructor: '/instructor/lectures' },
+    { name: 'Assignments', href: '/lms/assignments', instructor: '/instructor/assignments' },
+    { name: 'Discussion', href: '', instructor: '' },
+    { name: 'Announcements', href: '', instructor: '' },
 ]
 
 export default function Navbar() {
 
     const [burger, setBurger] = useState(false);
     const [profile, setProfile] = useState(false);
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const { token } = useSelector((s: authType) => s.auth);
+    const [username, setUsername] = useState('')
+
+    useEffect(()=>{
+        userCreds()
+    },[])
+
+    const userCreds = () => {
+        let temp: any = jwt.decode(token) 
+        setUsername(temp.username)
+    }
+
+    const handleClick = () => {
+        dispatch(userLogout())
+        router.push('/auth/login')
+    }
 
     return (
         <Flex
@@ -33,7 +55,7 @@ export default function Navbar() {
                 <HStack gap='20px' id={styles.nav_button_container}>
                     {
                         navData.map((ele, i) => {
-                            return <NavbarButtons key={i} name={ele.name} href={ele.href} />
+                            return <NavbarButtons key={i} name={ele.name} href={ele.href} instructor={ele.instructor} />
                         })
                     }
                 </HStack>
@@ -41,11 +63,11 @@ export default function Navbar() {
 
             <Box mr='20px'>
                 <Box id={styles.nav_profile} >
-                    <Text onClick={() => setProfile(!profile)} cursor='pointer' fontSize='md'>Subhankar Roy</Text>
+                    <Text onClick={() => setProfile(!profile)} cursor='pointer' fontSize='md'>{username}</Text>
                     {
                         profile && <Box id={styles.nav_profile_child}>
                             <Link href=''><Text color='gray'>Profile</Text></Link>
-                            <Link href=''><Text color='red'>Logout</Text></Link>
+                            <Button onClick={handleClick} bg='red' color='white'>Logout</Button>
                         </Box>
                     }
                 </Box>
@@ -71,7 +93,7 @@ export default function Navbar() {
                                 p='10px'
                                 bg='#e1ddf8'
                                 color='black' w='100%' >
-                                <NavbarButtons name={ele.name} href={ele.href} />
+                                <NavbarButtons name={ele.name} href={ele.href} instructor={ele.instructor} />
                             </Box>
                         })
                     }

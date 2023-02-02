@@ -1,4 +1,4 @@
-import { LOGIN } from "./auth.actionTypes";
+import { LOGIN, LOGOUT } from "./auth.actionTypes";
 
 if (typeof window !== 'undefined') {
     var item = localStorage.getItem('lms')
@@ -6,7 +6,7 @@ if (typeof window !== 'undefined') {
 
 const initState = {
     isAuth: !!item,
-    token: item
+    token: item,
 }
 
 export const authReducer = (state = initState, action) => {
@@ -18,6 +18,13 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 isAuth: true,
                 token: action.payload
+            }
+        case LOGOUT:
+            localStorage.removeItem('lms')
+            return {
+                ...state,
+                isAuth: false,
+                token: ''
             }
         default:
             return state;

@@ -11,6 +11,7 @@
     border-radius: 8px;
     margin-top: 5vh;
     padding: 60px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 #signup-form-parent {

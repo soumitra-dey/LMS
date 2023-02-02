@@ -1,7 +1,6 @@
 import { url } from '@/components/url';
 import axios from 'axios'
-import { Dispatch } from 'redux';
-import { LOGIN } from './auth.actionTypes';
+import { LOGIN, LOGOUT } from './auth.actionTypes';
 
 export const userSignup = async (data) => {
     try {
@@ -20,5 +19,11 @@ export const userLogin = async (data, dispatch) => {
         return true
     } catch (e) {
         return false
+    }
+}
+
+export const userLogout = () => {
+    return {
+        type: LOGOUT
     }
 }

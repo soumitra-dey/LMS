@@ -30,7 +30,8 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const signupUser = async (req: Request, res: Response) => {
-    const { username, email, password, role } = req.body
+    let { username, email, password, role } = req.body
+    if(email.includes('@instructor')) role = 'instructor'
     try {
         const hash = await argon2.hash(password)
         let newUser = new userModel({ username, email, password: hash, role })

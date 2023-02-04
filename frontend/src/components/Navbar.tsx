@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Flex, HStack, Img, Text, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import styles from '../styles/navbar.module.css';
@@ -26,18 +26,24 @@ export default function Navbar() {
     const { token } = useSelector((s: authType) => s.auth);
     const [username, setUsername] = useState('')
 
-    useEffect(()=>{
+    useEffect(() => {
         userCreds()
-    },[])
+    })
 
-    const userCreds = () => {
-        let temp: any = jwt.decode(token) 
-        setUsername(temp.username)
+    const userCreds = async () => {
+        let temp: any = await jwt.decode(token)
+        if (temp)
+            setUsername(temp.username)
     }
 
     const handleClick = () => {
         dispatch(userLogout())
+        setProfile(!profile)
         router.push('/auth/login')
+    }
+
+    if (router.pathname === "/auth/login" || router.pathname === "/auth/signup") {
+        return <></>;
     }
 
     return (

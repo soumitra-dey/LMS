@@ -1,0 +1,10 @@
+.instructor_assignment{
+    border-radius: 10px;
+    width: 80vw;
+    padding: 10px;
+    margin: auto;
+    position: relative;
+    line-height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
+    margin-top: 5vh;
+}

@@ -12,13 +12,11 @@ export default function assignments() {
     deadline: ''
   })
   const [add, setAdd] = useState<number[]>([]);
+  const [c, setC] = useState(4)
 
   const handleAdd = () => {
-    setAdd([...add, add.length + 1])
-  }
-  const handleRemove = (id: number) => {
-    let temp = add.filter((ele, i) => i !== id)
-    setAdd(temp)
+    setC(c => c - 1)
+    console.log(c);
   }
   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -58,14 +56,18 @@ export default function assignments() {
           <Flex gap='10px' justifyContent='flex-end'>
             <Button bg='red' color='white' type='submit'>SUBMIT</Button>
 
-            <Button isDisabled={add.length >= 3} onClick={handleAdd} bg='green' color='white'>ADD MORE</Button>
+            <Button isDisabled={c === 1} onClick={handleAdd} bg='green' color='white'>ADD MORE</Button>
           </Flex>
         </Box>
 
         {
-          add.map((ele, i) => {
-            return <ChakraFormInput handleRemove={handleRemove} key={i} id={i} />
-          })
+          c <= 3 && <ChakraFormInput />
+        }
+        {
+          c <= 2 && <ChakraFormInput />
+        }
+        {
+          c <= 1 && <ChakraFormInput />
         }
 
       </form>

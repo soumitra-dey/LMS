@@ -3,7 +3,7 @@ import React from 'react'
 import styles from '../styles/ChakraFormInput.module.css'
 
 
-export default function ChakraFormInput({ id, handleRemove }: { id: number, handleRemove:Function }) {
+export default function ChakraFormInput() {
 
 
 
@@ -11,7 +11,7 @@ export default function ChakraFormInput({ id, handleRemove }: { id: number, hand
         <label>Assignment Topic</label>
         <Input placeholder={'Enter topic'} />
         <Textarea placeholder='Enter details' />
-        <Button onClick={()=>handleRemove(id)} bg='red' color='white'>Remove</Button>
+        <Button onClick={() => {}} bg='red' color='white'>Remove</Button>
     </Flex>
     )
 }

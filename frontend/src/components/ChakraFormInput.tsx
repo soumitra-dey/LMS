@@ -3,15 +3,15 @@ import React from 'react'
 import styles from '../styles/ChakraFormInput.module.css'
 
 
-export default function ChakraFormInput() {
+export default function ChakraFormInput({ id, handleRemove, handleAssignment }: { id: number, handleRemove: Function, handleAssignment: Function }) {
 
 
 
     return (<Flex flexDirection='column' gap='20px' className={styles.instructor_assignment}>
         <label>Assignment Topic</label>
-        <Input placeholder={'Enter topic'} />
+        <Input onChange={(e) => handleAssignment(id, e)} placeholder={'Enter topic'} />
         <Textarea placeholder='Enter details' />
-        <Button onClick={() => {}} bg='red' color='white'>Remove</Button>
+        <Button onClick={() => handleRemove()} bg='red' color='white'>Remove</Button>
     </Flex>
     )
 }

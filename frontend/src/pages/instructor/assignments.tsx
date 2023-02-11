@@ -3,16 +3,25 @@ import { Box, Button, Flex, Input, Select, Text, Textarea } from '@chakra-ui/rea
 import { ChangeEvent, FormEvent, useState } from 'react';
 import styles from '../../styles/ChakraFormInput.module.css';
 
+type detailsType = {
+  instructor: string,
+  assignments: string[],
+  assignmentSubject: string,
+  deadline: string
+}
+
 export default function assignments() {
 
-  const [details, setDetails] = useState({
+  const [details, setDetails] = useState<detailsType>({
     instructor: '',
     assignments: [],
     assignmentSubject: '',
     deadline: ''
   })
-  const [add, setAdd] = useState<number[]>([]);
-  const [c, setC] = useState(4)
+  const [c, setC] = useState(3)
+  const [a1, setA1] = useState('')
+  const [a2, setA2] = useState('')
+  const [a3, setA3] = useState('')
 
   const handleAdd = () => {
     setC(c => c - 1)
@@ -24,8 +33,28 @@ export default function assignments() {
   }
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    details.assignments = []
+    details.assignments.push(
+      a1, a2, a3
+    )
     console.log(details);
+    setA1('')
+    setA2('')
+    setA3('')
   }
+  const handleRemove = () => {
+    setC(c => c + 1)
+  }
+
+  const handleAssignment = (id: Number, e: ChangeEvent<HTMLInputElement>) => {
+    console.log(id, e.target.value);
+    if (id === 1) {
+      setA1(e.target.value)
+    } else if (id === 2) {
+      setA2(e.target.value)
+    }
+  }
+
 
   return (
     <Box pb='5vh'>
@@ -38,7 +67,7 @@ export default function assignments() {
           <Input onChange={handleChange} name='instructor' placeholder={'Enter name'} />
 
           <label>Assignment Topic</label>
-          <Input placeholder={'Enter topic'} />
+          <Input onChange={(e) => setA3(e.target.value)} placeholder={'Enter topic'} />
 
           <br />
           <br />
@@ -60,14 +89,12 @@ export default function assignments() {
           </Flex>
         </Box>
 
+
         {
-          c <= 3 && <ChakraFormInput />
+          c <= 2 && <ChakraFormInput id={1} handleAssignment={handleAssignment} handleRemove={handleRemove} />
         }
         {
-          c <= 2 && <ChakraFormInput />
-        }
-        {
-          c <= 1 && <ChakraFormInput />
+          c <= 1 && <ChakraFormInput id={2} handleAssignment={handleAssignment} handleRemove={handleRemove} />
         }
 
       </form>

@@ -5,10 +5,11 @@ import styles from '../../styles/ChakraFormInput.module.css';
 
 type detailsType = {
   instructor: string,
-  assignments: string[],
+  assignments: { topic: string, description: string }[],
   assignmentSubject: string,
   deadline: string
 }
+let obj = { topic: "", description: "" };
 
 export default function assignments() {
 
@@ -18,41 +19,23 @@ export default function assignments() {
     assignmentSubject: '',
     deadline: ''
   })
-  const [c, setC] = useState(3)
-  const [a1, setA1] = useState('')
-  const [a2, setA2] = useState('')
-  const [a3, setA3] = useState('')
+
 
   const handleAdd = () => {
-    setC(c => c - 1)
-    console.log(c);
+    setDetails({ ...details, assignments: [...details.assignments, obj] });
+    obj = { topic: obj.topic, description: obj.description };
   }
   const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setDetails({ ...details, [name]: value })
+    const { name, value } = e.target;
+    setDetails({ ...details, [name]: value });
   }
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    details.assignments = []
-    details.assignments.push(
-      a1, a2, a3
-    )
-    console.log(details);
-    setA1('')
-    setA2('')
-    setA3('')
+    setDetails({ ...details, assignments: [...details.assignments, obj] });
+    console.log(details)
   }
-  const handleRemove = () => {
-    setC(c => c + 1)
-  }
-
-  const handleAssignment = (id: Number, e: ChangeEvent<HTMLInputElement>) => {
-    console.log(id, e.target.value);
-    if (id === 1) {
-      setA1(e.target.value)
-    } else if (id === 2) {
-      setA2(e.target.value)
-    }
+  const handleRemove = (index: number) => {
+    setDetails({ ...details, assignments: details.assignments.filter((e, i) => i !== index) })
   }
 
 
@@ -67,12 +50,12 @@ export default function assignments() {
           <Input onChange={handleChange} name='instructor' placeholder={'Enter name'} />
 
           <label>Assignment Topic</label>
-          <Input onChange={(e) => setA3(e.target.value)} placeholder={'Enter topic'} />
+          <Input onChange={(e) => obj.topic = e.target.value} name='topic' placeholder={'Enter topic'} />
 
           <br />
           <br />
 
-          <Textarea placeholder='Enter details' />
+          <Textarea placeholder='Enter details' onChange={(e) => obj.description = e.target.value} name='description' />
 
           <label>Assignment Subject</label>
           <Select onChange={handleChange} name='assignmentSubject' placeholder='Select subject'>
@@ -85,16 +68,15 @@ export default function assignments() {
           <Flex gap='10px' justifyContent='flex-end'>
             <Button bg='red' color='white' type='submit'>SUBMIT</Button>
 
-            <Button isDisabled={c === 1} onClick={handleAdd} bg='green' color='white'>ADD MORE</Button>
+            <Button isDisabled={details.assignments.length > 2} onClick={handleAdd} bg='green' color='white'>ADD MORE</Button>
           </Flex>
         </Box>
 
-
         {
-          c <= 2 && <ChakraFormInput id={1} handleAssignment={handleAssignment} handleRemove={handleRemove} />
-        }
-        {
-          c <= 1 && <ChakraFormInput id={2} handleAssignment={handleAssignment} handleRemove={handleRemove} />
+          details.assignments.map((e, i) => (
+            <ChakraFormInput key={i} handleRemove={handleRemove} assignmentSubject={details.assignmentSubject}
+              index={i} {...e}  ></ChakraFormInput>
+          ))
         }
 
       </form>

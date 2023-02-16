@@ -4,9 +4,9 @@ import {
 } from '@chakra-ui/react';
 import styles from '../../styles/signup.module.css'
 import FormInput from '../../components/FormInput';
-import { userLogin } from '@/redux/auth/auth.actions';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import { userLogin } from '@/redux/auth/auth.action';
 
 const form = [
     { label: 'Email', type: 'text', name: 'email' },
@@ -32,7 +32,7 @@ export default function signup() {
         e.preventDefault();
         setLoading(true)
         if (details.email && details.password && details.password) {
-            userLogin(details, dispatch).then((r) => {
+            userLogin(dispatch, details).then((r) => {
                 toast({
                     title: r ? 'Login successful!' : 'Wrong credentials!',
                     position: 'top',
@@ -55,7 +55,8 @@ export default function signup() {
 
     return (
         <Box
-            bgGradient={['linear(to-tr, teal.300, yellow.400)', 'linear(to-t, blue.200, teal.500)', 'linear(to-b, orange.100, purple.300)',]}
+            bgGradient={['linear(to-tr, teal.300, yellow.400)', 'linear(to-t, blue.200, teal.500)',
+                'linear(to-b, orange.100, purple.300)',]}
             h='100vh'
             color='black'
             display='flex'

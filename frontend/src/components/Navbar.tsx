@@ -6,9 +6,10 @@ import NavbarButtons, { authType } from './NavbarButtons';
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { RxCross2 } from 'react-icons/rx'
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogout } from '@/redux/auth/auth.actions';
 import { useRouter } from 'next/router';
-import jwt from 'jsonwebtoken'
+import { bindActionCreators } from 'redux';
+import { authActionCreators } from '@/redux/auth';
+import jwt from "jsonwebtoken";
 
 const navData = [
     { name: 'Lectures', href: '/lms/lectures', instructor: '/instructor/lectures' },
@@ -26,18 +27,21 @@ export default function Navbar() {
     const { token } = useSelector((s: authType) => s.auth);
     const [username, setUsername] = useState('')
 
+    const { userLogout } = bindActionCreators(authActionCreators, dispatch);
+
     useEffect(() => {
         userCreds()
     })
 
+
     const userCreds = async () => {
-        let temp: any = await jwt.decode(token)
+        let temp: any = jwt.decode(token)
         if (temp)
-            setUsername(temp.username)
+            setUsername(temp?.username || "");
     }
 
     const handleClick = () => {
-        dispatch(userLogout())
+        userLogout();
         setProfile(!profile)
         router.push('/auth/login')
     }

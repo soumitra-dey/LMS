@@ -13,6 +13,7 @@ const form = [
     { label: 'Password', type: 'password', name: 'password' }
 ]
 
+
 export default function signup() {
 
 

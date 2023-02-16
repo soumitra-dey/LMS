@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const assignmentSchema = new Schema({
     instructor: { type: String, required: true },
     assignments: {
-        type: [String],
+        type: [{ topic: String, description: String }],
         required: true
     },
     assignmentSubject: {

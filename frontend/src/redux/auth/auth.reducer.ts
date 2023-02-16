@@ -1,25 +1,30 @@
-import { LOGIN, LOGOUT } from "./auth.actionTypes";
+import { authType, AuthTypes } from "./auth.actionTypes";
+
+var item;
 
 if (typeof window !== 'undefined') {
-    var item = localStorage.getItem('lms')
+    item = localStorage.getItem('lms');
 }
 
 const initState = {
     isAuth: !!item,
-    token: item,
+    token: item || "",
 }
 
-export const authReducer = (state = initState, action) => {
+export type authStateType = { isAuth: boolean, token: string }
+
+
+export const authReducer = (state: authStateType = initState, action: authType) => {
 
     switch (action.type) {
-        case LOGIN:
+        case AuthTypes.LOGIN:
             localStorage.setItem('lms', action.payload)
             return {
                 ...state,
                 isAuth: true,
                 token: action.payload
             }
-        case LOGOUT:
+        case AuthTypes.LOGOUT:
             localStorage.removeItem('lms')
             return {
                 ...state,
